@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Focus Timer</title>
-<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAADz0lEQVR4nO2WW28cRRCFz6nunp3dtWMnDrkhpFxACB6QQOL/v/AHUCKEiEIUciMX2+vY3t2Z7q7Dg+NAdgYFIeUBiXkbaaa/qjqnqos3rl3Hx3zso57+P+C/CXC5JIL/HuAmwiYlphKF4IhWZ7E0CRXifK9vZ6Xp21RRTEEWpBJqgAPU4LQ4BBAkRIqxeFyKXmvsAWmNuvX9t5///nzx4O5hE4tCI6egakBuxAj2gH8IIEpYW79ztfnmuy+A42TWY3Lw4vDhvYWxFlulG8uvv7wynbYpBLO07MJPP9zPq2ho8H71xgAOgplae7e107TTxljV1U92d3e25qldXr/a3Lxze76NyqzYN5zU51x31TiFNrUZA1CAGZqTg+Nn91/c/OriKr9JpXRt2b41m9AucZeIDu9rXmnVLeOjH1+y34O1sNONEo2ILLnLzdNk3ew/WKz3vXrbx1hSqPSoNmKKZmLTZtpa29jy1eHyyasGbtYBmzKPZAA6HFG4ENvbl7ZnwU6CI/pcs63jaf6tatbxtvUzsyIUXm72sNfee3lQ0WFg3xGA0xA0yfnW9OKVdZOeQFGsPhPj4brZD+FCrmuGnUnoUurVvGnmbBaT/te8jxA/LDJgjrqd0qe2tbWwelDn/RxZlBIYUwxq4sMpJxMrXle577L6eifuPO1Plu8LMA4wwcRpkxItMliwUCtFuJtDold47+a5l2JfrdRcfXcymYRwisoPZmBCcCSYgYGBQWYOM4gwOYCsuq4w703oCkpVsFYWSA1EGC0RAJAIZkbKSDMEAwUXAQE5FzlyVKwggEQCTg1MNC4yRPWqlZCBZiFGmdwBJwUJBCSZQ6THUA2nnjtt1mccUAlEe7Ne9W11SyAsBlelA4IcrKAAMoKekA0V/tpP18hg2EhirNGASqy8vFod9+YQjIZABCBAQYhABI2R5oYctEJ5fHqUx0b4CMCA4FwH/rw6fFY7MLFAEowwIMITahKSe8g984nlX/qjp74G4nBej7sIgBuPVO6+ftxdLJ9t7c492vkckCT5afBOfuzlyeni0fFR39ClYbwc7kVngGIAwaLWebmdX0vTRDMLIOSSVFhPynq/Wy1y5ylmyCzANxttHCCiEm6gK4h0DQ3YOAjvA2s0FyJoPujjcZsaHAARHAaaQLIPm+XtXUSoBoGms/6HuBnICOCsG+ngeVsKiIPYHHTC/M+/ig2n9fiV+fZonVnWzgCDu4rEWX6QE8UgItZ/AHgX0btoCPjA4yIoOHEWtwka7hR/B/jrl+e1HySgtx/6+evoqvTRN7s/AM6nKBkpvbzoAAAAAElFTkSuQmCC">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAAEgklEQVR4nLWX229bRRCHv9ndcxzbSdM0TdKkCCgRFRFCSDwgIf5wHnntCwLBQ0FthZCgTUpbknN8O5ed4eEcu05iJ2ma/iTb673MfXZmpapLCz5gBgLzXzcCwxCEyXhIMRmQhBSw2XoIPgCCXINnVZYtC8M7j3hPGWsMcCJ0fIK0yvgwHdspGgGE0TAnxohzDhGPCKSdFbz3S5mrRrLjl5RViQArnT5u/RZvypzEBYILbKgxOnlD/9YGzoeFdALA0dEhk8mEfq9LWVZ0+6tsbt7F++4F+gt5lpHlA0xrtu/uUnbhh79+4pbv8uDOHt/07/Py8AV76Qq91bXlAuzs7KGmOC+YQpp0CGG59g2Mfq9Pr99HY6TTWSENXb6/9yVBHCtJijjH7dsbpGmK2WIqYrZs6RL2ZlTlGFPFAO8DPukwiRUCOHF0nAcMRKjrmlH+HyGcdsVix1wBIkLa6Z2b74X07M7Z/kUI41E+p9WSLLQmds/SaGw3NWCbSTq3dy7oVXWxAMVoMBPUOQcKOqXSznvxmLREznpMBO8cUSNm4MWBQFRFaP6bQIyKXxBXTpzDeQ8IJycZ4/EYEJz3OO8xhOOTY/Isa1LVe8Q5pudUlaOjI8wgCYHBaMhJnhNCwHnPYDhkNB7jw2Jvu8aUjVZ5lpEPMqZzZoZgZNkxh22qnvWlaiTLTogxIs6RZ8cMh4NmnwjD0YDJZNy4ZEG4y/HrQ2ssKS1DweZ2igiqEVVrtF+gxZS2ABYVczITVETADDVwTs5nwVR7NUPaX+RtHGorlPOuIcTbtXmF2vhDnJymp0YrA+ejG6Qqi2vdA+8EEWJdUYwH5y0QkrN5+6FkEIrx+fnQGNKoYyQsKRg3wJ5lF64DIdaRZ0+f0vjoQ3yWwwE4H/j0wWfvoJGxKKeuE0xuejAJCVENM8VMUY3LmRtzqdo0JNNrXM2aTLoiQm3KoxeP2cqETAp2uhv0ul2KomB376Pmeqa5mESEPM/489kz+mvr7O/v8+svP5OkK3xxcMCj54/5481zHm7c57v7B7MzFwrgRfh66wErW55JWZD4FBFh7czh6ShJUrbv7dLtNpVwd+8jpom+v7HHWtJlo7veHrq8z5v1A1Ej3l3WhFwd81EvIlRVebofEJoLDiDWFU+fPKFx7uX+a4jbbDxlZjT+V23rt9ksXsXkbewaTdk2Q8zUAIqypJN2bkTzOkbqGGdFQkQoq4JxfjyzgAgEH5C6ru2i7vddoaqMqxKVaSFq54kQ9VRc1eWEUIyH9Pq3Zg+I90LbiKQhIbmCUkMgFJMRRVG8H+M5VLHmzuY2v+f/8HF3i7ycUGtETVuPGIkLrHd6ePEE7x0x1lcKvqvANIIqP776jW9XP+fv7F9KIh1JKGOFCtSx5qvNTzhY3yM0r6GbegsaKoI44WGyw2a6xvbddUJwRDVGdYmirIYO3WSFaIoMTl5d92lwDgKUMbK6vklyhco6KkYEEblBC4DEyKQcY+n0Wde2ZqcbPQyjLCfIMHt9ox2RqjKpSkq7KKuaDjJ1jv8BkIdLAjvoR68AAAAASUVORK5CYII=">
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,7 +16,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:36px 20px 60px}
 
-  /* ── Modal ── */
+  /* Modal */
   .modal-backdrop{position:fixed;inset:0;background:rgba(42,37,32,.45);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;z-index:1000}
   .modal-backdrop.hidden{display:none}
   .modal{background:var(--surface);border-radius:24px;padding:32px 28px 28px;width:100%;max-width:400px;box-shadow:var(--shadow-lg);margin:20px}
@@ -34,7 +34,7 @@
   .modal-btn:hover{background:#f06045;transform:translateY(-1px)}
   .modal-error{font-size:12px;color:var(--tomato);font-weight:700;margin-top:10px;display:none;text-align:center}
 
-  /* ── Header ── */
+  /* Header */
   .header{width:100%;max-width:460px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
   .logo{font-size:15px;font-weight:900;letter-spacing:-.02em;color:var(--tomato)}
   .header-right{display:flex;align-items:center;gap:8px}
@@ -42,7 +42,7 @@
   .settings-btn{width:32px;height:32px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
   .settings-btn:hover{background:var(--border)}
 
-  /* ── Card ── */
+  /* Card */
   .card{width:100%;max-width:460px;background:var(--surface);border-radius:28px;padding:28px 28px 24px;box-shadow:var(--shadow-lg);margin-bottom:14px}
   .task-row{display:flex;align-items:center;gap:10px;background:var(--surface2);border-radius:14px;padding:12px 16px;margin-bottom:24px;border:1.5px solid transparent;transition:border-color .2s}
   .task-row:focus-within{border-color:var(--tomato)}
@@ -50,7 +50,7 @@
   .task-input{flex:1;background:transparent;border:none;outline:none;font-family:'Nunito',sans-serif;font-size:14px;font-weight:700;color:var(--text);caret-color:var(--tomato)}
   .task-input::placeholder{color:var(--text-dim);font-weight:600}
 
-  /* ── Clock ── */
+  /* Clock */
   .clock-wrap{display:flex;justify-content:center;margin-bottom:22px}
   .clock-outer{position:relative;width:220px;height:220px}
   #timerCanvas{border-radius:50%;display:block}
@@ -59,13 +59,13 @@
   #statusLabel{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-top:3px}
   #overtimeLabel{font-family:'DM Mono',monospace;font-size:9px;color:var(--yellow);margin-top:2px;display:none}
 
-  /* ── Timesup ── */
+  /* Timesup */
   .timesup-banner{display:none;align-items:center;gap:10px;background:#fde8e4;border:1.5px solid #f5c4bb;border-radius:14px;padding:11px 16px;margin-bottom:14px;width:100%;max-width:460px}
   .timesup-banner.show{display:flex}
   .timesup-text{font-size:13px;font-weight:800;color:var(--tomato)}
   .timesup-sub{font-size:11px;color:#c0705a;margin-top:1px;font-weight:600}
 
-  /* ── Setter ── */
+  /* Setter */
   .time-setter{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin-bottom:20px}
   .setter-unit{display:flex;flex-direction:column;align-items:center;gap:5px}
   .setter-label{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim)}
@@ -76,7 +76,7 @@
   .setter-input:focus{border-color:var(--tomato);background:var(--tomato-light)}
   .setter-sep{font-family:'DM Mono',monospace;font-size:22px;color:var(--text-dim);padding-bottom:4px;font-weight:500}
 
-  /* ── Controls ── */
+  /* Controls */
   .controls{display:flex;gap:10px;justify-content:center}
   .btn-main{flex:1;padding:14px;background:var(--tomato);color:#fff;border:none;border-radius:16px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:800;cursor:pointer;transition:all .15s;max-width:200px;box-shadow:0 4px 16px rgba(232,83,58,.35)}
   .btn-main:hover{background:#f06045;transform:translateY(-2px)}
@@ -86,14 +86,14 @@
   .btn-done:hover{background:#d0f0e4}
   .btn-done:disabled{opacity:.5;cursor:not-allowed}
 
-  /* ── Toast ── */
+  /* Toast */
   .sync-toast{position:fixed;bottom:28px;right:24px;background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:12px 18px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;transition:all .3s;opacity:0;transform:translateY(10px);z-index:999;box-shadow:var(--shadow)}
   .sync-toast.show{opacity:1;transform:translateY(0)}
   .sync-toast.success{border-color:#b8e8d0;color:var(--green)}
   .sync-toast.error{border-color:#f5c4bb;color:var(--tomato)}
   .sync-toast.loading{color:var(--text-dim)}
 
-  /* ── List ── */
+  /* List */
   .list-card{width:100%;max-width:460px;background:var(--surface);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
   .list-header{padding:18px 22px 14px;border-bottom:1.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
   .list-title{font-size:12px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim)}
@@ -105,21 +105,24 @@
   .btn-edit-mode:hover{color:var(--tomato);border-color:var(--tomato);background:var(--tomato-light)}
   .btn-edit-mode.active{color:var(--tomato);border-color:var(--tomato);background:var(--tomato-light)}
 
-  .list-cols{display:grid;grid-template-columns:28px 1fr 96px 56px 56px 64px;gap:4px;padding:9px 22px;border-bottom:1.5px solid var(--border);background:var(--surface2)}
+  /* ── 컬럼 그리드: 체크박스(edit모드에서만 표시) + 태스크 + 작업일시 + 계획 + 실제 + 차이 ── */
+  .list-cols{display:grid;grid-template-columns:1fr 96px 54px 54px 62px;gap:4px;padding:9px 22px;border-bottom:1.5px solid var(--border);background:var(--surface2)}
+  .list-cols.edit-cols{grid-template-columns:24px 1fr 96px 54px 54px 62px}
   .col-label{font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim)}
   .col-label.right{text-align:right}
 
-  .task-item{display:grid;grid-template-columns:28px 1fr 96px 56px 56px 64px;gap:4px;padding:13px 22px;border-bottom:1.5px solid var(--border);animation:slide-in .25s ease;transition:background .15s}
+  .task-item{display:grid;grid-template-columns:1fr 96px 54px 54px 62px;gap:4px;padding:13px 22px;border-bottom:1.5px solid var(--border);animation:slide-in .25s ease;transition:background .15s}
+  .task-item.edit-row{grid-template-columns:24px 1fr 96px 54px 54px 62px}
   .task-item:last-child{border-bottom:none}
   .task-item.selected{background:#fff5f3}
   @keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
 
-  .task-checkbox{width:18px;height:18px;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:none;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;background:var(--surface)}
+  .task-checkbox{width:18px;height:18px;border:1.5px solid var(--border);border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;background:var(--surface)}
   .task-checkbox:hover{border-color:var(--tomato)}
   .task-checkbox.checked{background:var(--tomato);border-color:var(--tomato);color:#fff;font-size:11px;font-weight:900}
-  .edit-mode .task-checkbox{display:flex}
 
-  .task-name-cell{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+  .task-name-cell{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;min-width:0}
+  .task-name-text{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .task-status-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
   .dot-done{background:var(--green)}
   .dot-over{background:var(--yellow)}
@@ -172,7 +175,7 @@
   <div class="logo">🍅 Focus Timer</div>
   <div class="header-right">
     <div class="session-badge" id="sessionBadge">세션 0회 완료</div>
-    <button class="settings-btn" onclick="openSettings()" title="노션 설정">⚙️</button>
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
   </div>
 </div>
 
@@ -235,8 +238,7 @@
       <div class="list-count" id="taskCount">0개</div>
     </div>
   </div>
-  <div class="list-cols">
-    <div class="col-label"></div>
+  <div class="list-cols" id="listCols">
     <div class="col-label">태스크</div>
     <div class="col-label">작업일시</div>
     <div class="col-label right">계획</div>
@@ -258,17 +260,16 @@
 <div class="sync-toast" id="syncToast"></div>
 
 <script>
-  const CORS_PROXY = 'https://corsproxy.io/?url=';
-  const CX=110, CY=110, R=100;
-  let NOTION_TOKEN='', NOTION_DB_ID='';
-  let setHours=0, setMinutes=10;
-  let totalPlanned=10*60, remaining=10*60;
-  let elapsed=0, overtime=0;
-  let running=false, isOvertime=false;
-  let interval=null, sessionCount=0, startTime=null;
+  const CORS_PROXY='https://corsproxy.io/?url=';
+  const CX=110,CY=110,R=100;
+  let NOTION_TOKEN='',NOTION_DB_ID='';
+  let setHours=0,setMinutes=10;
+  let totalPlanned=600,remaining=600;
+  let elapsed=0,overtime=0;
+  let running=false,isOvertime=false;
+  let interval=null,sessionCount=0,startTime=null;
   let tasks=[];
-  let editMode=false;
-  let selected=new Set();
+  let editMode=false,selected=new Set();
 
   const canvas=document.getElementById('timerCanvas');
   const ctx=canvas.getContext('2d');
@@ -283,17 +284,16 @@
       document.getElementById('modalBackdrop').classList.add('hidden');
       updateNotionBadge(true);
     }
-    // 저장된 세션 수 불러오기
     sessionCount=parseInt(localStorage.getItem('ft_sessions')||'0');
     document.getElementById('sessionBadge').textContent=`세션 ${sessionCount}회 완료`;
   }
   function saveSettings(){
     const token=document.getElementById('inputToken').value.trim();
     const dbid=document.getElementById('inputDbId').value.trim().replace(/-/g,'');
-    if(!token||!dbid){ document.getElementById('modalError').style.display='block'; return; }
+    if(!token||!dbid){document.getElementById('modalError').style.display='block';return;}
     localStorage.setItem('ft_token',token);
     localStorage.setItem('ft_dbid',dbid);
-    NOTION_TOKEN=token; NOTION_DB_ID=dbid;
+    NOTION_TOKEN=token;NOTION_DB_ID=dbid;
     document.getElementById('modalBackdrop').classList.add('hidden');
     updateNotionBadge(true);
   }
@@ -310,103 +310,97 @@
 
   // ── Task persistence ───────────────────────────────────
   function saveTasks(){
-    localStorage.setItem('ft_tasks', JSON.stringify(tasks.map(t=>({
-      ...t, date: t.date instanceof Date ? t.date.toISOString() : t.date
-    }))));
+    localStorage.setItem('ft_tasks',JSON.stringify(tasks.map(t=>({...t,date:t.date instanceof Date?t.date.toISOString():t.date}))));
   }
   function loadTasks(){
-    try {
-      const raw=localStorage.getItem('ft_tasks');
-      if(!raw) return;
-      tasks=JSON.parse(raw).map(t=>({...t, date: new Date(t.date)}));
-    } catch(e){ tasks=[]; }
+    try{const raw=localStorage.getItem('ft_tasks');if(!raw)return;tasks=JSON.parse(raw).map(t=>({...t,date:new Date(t.date)}));}catch(e){tasks=[];}
   }
 
   // ── Canvas ─────────────────────────────────────────────
   function drawClock(){
     ctx.clearRect(0,0,220,220);
-    ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.fillStyle='#f5f2ee'; ctx.fill();
+    ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fillStyle='#f5f2ee';ctx.fill();
     for(let i=0;i<60;i++){
-      const a=(i/60)*Math.PI*2-Math.PI/2, maj=i%5===0;
+      const a=(i/60)*Math.PI*2-Math.PI/2,maj=i%5===0;
       ctx.beginPath();
-      ctx.moveTo(CX+(maj?R-10:R-6)*Math.cos(a), CY+(maj?R-10:R-6)*Math.sin(a));
-      ctx.lineTo(CX+(R-2)*Math.cos(a), CY+(R-2)*Math.sin(a));
-      ctx.strokeStyle=maj?'#c8c0b8':'#ddd8d2'; ctx.lineWidth=maj?2:1; ctx.stroke();
+      ctx.moveTo(CX+(maj?R-10:R-6)*Math.cos(a),CY+(maj?R-10:R-6)*Math.sin(a));
+      ctx.lineTo(CX+(R-2)*Math.cos(a),CY+(R-2)*Math.sin(a));
+      ctx.strokeStyle=maj?'#c8c0b8':'#ddd8d2';ctx.lineWidth=maj?2:1;ctx.stroke();
     }
     const sa=-Math.PI/2;
     if(!isOvertime&&remaining>0){
-      ctx.beginPath(); ctx.moveTo(CX,CY);
+      ctx.beginPath();ctx.moveTo(CX,CY);
       ctx.arc(CX,CY,R-12,sa,sa+(remaining/totalPlanned)*Math.PI*2);
-      ctx.closePath(); ctx.fillStyle='#e8533a'; ctx.globalAlpha=.88; ctx.fill(); ctx.globalAlpha=1;
+      ctx.closePath();ctx.fillStyle='#e8533a';ctx.globalAlpha=.88;ctx.fill();ctx.globalAlpha=1;
     }
     if(isOvertime&&overtime>0){
-      ctx.beginPath(); ctx.moveTo(CX,CY);
+      ctx.beginPath();ctx.moveTo(CX,CY);
       ctx.arc(CX,CY,R-12,sa,sa+((overtime%totalPlanned)/totalPlanned)*Math.PI*2);
-      ctx.closePath(); ctx.fillStyle='#f0b429'; ctx.globalAlpha=.82; ctx.fill(); ctx.globalAlpha=1;
+      ctx.closePath();ctx.fillStyle='#f0b429';ctx.globalAlpha=.82;ctx.fill();ctx.globalAlpha=1;
     }
-    ctx.beginPath(); ctx.arc(CX,CY,52,0,Math.PI*2); ctx.fillStyle='#fff'; ctx.fill();
-    ctx.beginPath(); ctx.arc(CX,CY,R,0,Math.PI*2); ctx.strokeStyle='#e0dbd4'; ctx.lineWidth=2; ctx.stroke();
-    ctx.beginPath(); ctx.arc(CX,CY,4,0,Math.PI*2); ctx.fillStyle=isOvertime?'#f0b429':'#e8533a'; ctx.fill();
+    ctx.beginPath();ctx.arc(CX,CY,52,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();
+    ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.strokeStyle='#e0dbd4';ctx.lineWidth=2;ctx.stroke();
+    ctx.beginPath();ctx.arc(CX,CY,4,0,Math.PI*2);ctx.fillStyle=isOvertime?'#f0b429':'#e8533a';ctx.fill();
   }
 
   function fmt(sec){
-    const h=Math.floor(Math.abs(sec)/3600), m=Math.floor((Math.abs(sec)%3600)/60), s=Math.abs(sec)%60;
+    const h=Math.floor(Math.abs(sec)/3600),m=Math.floor((Math.abs(sec)%3600)/60),s=Math.abs(sec)%60;
     return h>0?`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`:`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
   }
-  function nowKST(){ return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})); }
-  function formatDatetime(d){ return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+  function nowKST(){return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'}));}
+  function formatDatetime(d){return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;}
 
   function beep(){
     try{
       const ac=new(window.AudioContext||window.webkitAudioContext)();
       [0,.18,.36].forEach(t=>{
         const o=ac.createOscillator(),g=ac.createGain();
-        o.connect(g); g.connect(ac.destination);
+        o.connect(g);g.connect(ac.destination);
         o.frequency.value=t===.36?880:660;
         g.gain.setValueAtTime(.25,ac.currentTime+t);
         g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+t+.28);
-        o.start(ac.currentTime+t); o.stop(ac.currentTime+t+.28);
+        o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.28);
       });
     }catch(e){}
   }
   function showToast(msg,type='loading'){
     const t=document.getElementById('syncToast');
-    t.className=`sync-toast ${type} show`; t.innerHTML=msg;
-    if(type!=='loading') setTimeout(()=>t.classList.remove('show'),3500);
+    t.className=`sync-toast ${type} show`;t.innerHTML=msg;
+    if(type!=='loading')setTimeout(()=>t.classList.remove('show'),3500);
   }
-  function updateTimeDisplay(){ document.getElementById('timeDisplay').textContent=isOvertime?`+${fmt(overtime)}`:fmt(remaining); }
-  function render(){ drawClock(); updateTimeDisplay(); }
+  function updateTimeDisplay(){document.getElementById('timeDisplay').textContent=isOvertime?`+${fmt(overtime)}`:fmt(remaining);}
+  function render(){drawClock();updateTimeDisplay();}
 
-  // ── Time setter ────────────────────────────────────────
-  function getPlanned(){ return setHours*3600+setMinutes*60; }
+  // ── Setter ─────────────────────────────────────────────
+  function getPlanned(){return setHours*3600+setMinutes*60;}
   function adjustTime(type,delta){
-    if(running) return;
-    if(type==='h'){ setHours=Math.max(0,Math.min(23,setHours+delta)); document.getElementById('setHour').value=setHours; }
-    else{ setMinutes=Math.max(0,Math.min(59,setMinutes+delta)); if(!setHours&&!setMinutes) setMinutes=1; document.getElementById('setMin').value=setMinutes; }
+    if(running)return;
+    if(type==='h'){setHours=Math.max(0,Math.min(23,setHours+delta));document.getElementById('setHour').value=setHours;}
+    else{setMinutes=Math.max(0,Math.min(59,setMinutes+delta));if(!setHours&&!setMinutes)setMinutes=1;document.getElementById('setMin').value=setMinutes;}
     applyTimeChange();
   }
   function onInputChange(type){
-    if(running) return;
-    if(type==='h') setHours=parseInt(document.getElementById('setHour').value)||0;
+    if(running)return;
+    if(type==='h')setHours=parseInt(document.getElementById('setHour').value)||0;
     else setMinutes=parseInt(document.getElementById('setMin').value)||0;
     applyTimeChange();
   }
   function onInputBlur(type){
-    if(type==='h'){ setHours=Math.max(0,Math.min(23,parseInt(document.getElementById('setHour').value)||0)); document.getElementById('setHour').value=setHours; }
-    else{ setMinutes=Math.max(0,Math.min(59,parseInt(document.getElementById('setMin').value)||0)); if(!setHours&&!setMinutes) setMinutes=1; document.getElementById('setMin').value=setMinutes; }
+    if(type==='h'){setHours=Math.max(0,Math.min(23,parseInt(document.getElementById('setHour').value)||0));document.getElementById('setHour').value=setHours;}
+    else{setMinutes=Math.max(0,Math.min(59,parseInt(document.getElementById('setMin').value)||0));if(!setHours&&!setMinutes)setMinutes=1;document.getElementById('setMin').value=setMinutes;}
     applyTimeChange();
   }
-  function applyTimeChange(){ totalPlanned=getPlanned(); remaining=totalPlanned; elapsed=0; overtime=0; render(); }
-  function lockSetter(lock){ const s=document.getElementById('timeSetter'); s.style.opacity=lock?'.4':'1'; s.style.pointerEvents=lock?'none':'auto'; }
+  function applyTimeChange(){totalPlanned=getPlanned();remaining=totalPlanned;elapsed=0;overtime=0;render();}
+  function lockSetter(lock){const s=document.getElementById('timeSetter');s.style.opacity=lock?'.4':'1';s.style.pointerEvents=lock?'none':'auto';}
 
   // ── Timer ──────────────────────────────────────────────
   function toggleTimer(){
     const btn=document.getElementById('startBtn');
-    if(running){ clearInterval(interval); running=false; btn.textContent='▶ 재개'; }
+    if(running){clearInterval(interval);running=false;btn.textContent='▶ 재개';}
     else{
-      if(!totalPlanned) return;
-      if(!startTime) startTime=nowKST();
-      running=true; btn.textContent='⏸ 일시정지';
+      if(!totalPlanned)return;
+      if(!startTime)startTime=nowKST();
+      running=true;btn.textContent='⏸ 일시정지';
       lockSetter(true);
       document.getElementById('doneBtn').style.display='flex';
       document.getElementById('statusLabel').textContent='집중 중';
@@ -416,54 +410,59 @@
   function tick(){
     elapsed++;
     if(!isOvertime){
-      remaining--; render();
+      remaining--;render();
       if(remaining<=0){
-        isOvertime=true; beep();
+        isOvertime=true;beep();
         document.getElementById('timesupBanner').classList.add('show');
         document.getElementById('statusLabel').textContent='타임업!';
         document.getElementById('statusLabel').style.color='#e8533a';
         document.getElementById('overtimeLabel').style.display='block';
       }
-    } else { overtime++; document.getElementById('overtimeLabel').textContent=`+${fmt(overtime)}`; render(); }
+    }else{overtime++;document.getElementById('overtimeLabel').textContent=`+${fmt(overtime)}`;render();}
   }
+
   function resetTimer(){
     clearInterval(interval);
-    running=false; isOvertime=false; totalPlanned=getPlanned();
-    remaining=totalPlanned; elapsed=0; overtime=0; startTime=null;
+    running=false;isOvertime=false;totalPlanned=getPlanned();
+    remaining=totalPlanned;elapsed=0;overtime=0;startTime=null;
     document.getElementById('startBtn').textContent='▶ 시작';
     document.getElementById('statusLabel').textContent='대기 중';
     document.getElementById('statusLabel').style.color='';
-    document.getElementById('doneBtn').style.display='none';
+    const doneBtn=document.getElementById('doneBtn');
+    doneBtn.style.display='none';
+    doneBtn.disabled=false; // ← 완료 버튼 재활성화
     document.getElementById('timesupBanner').classList.remove('show');
     document.getElementById('overtimeLabel').style.display='none';
-    lockSetter(false); render();
+    lockSetter(false);render();
   }
 
   async function completeTask(){
-    if(elapsed===0) return;
-    clearInterval(interval); running=false;
-    document.getElementById('doneBtn').disabled=true;
+    if(elapsed===0)return;
+    clearInterval(interval);running=false;
+    const doneBtn=document.getElementById('doneBtn');
+    doneBtn.disabled=true;
+
     const name=document.getElementById('taskInput').value.trim()||'이름 없는 태스크';
-    const actual=elapsed, diff=actual-totalPlanned;
+    const actual=elapsed,diff=actual-totalPlanned;
     const taskDate=startTime||nowKST();
     sessionCount++;
-    localStorage.setItem('ft_sessions', sessionCount);
+    localStorage.setItem('ft_sessions',sessionCount);
     document.getElementById('sessionBadge').textContent=`세션 ${sessionCount}회 완료`;
-    const taskObj={id:Date.now(), name, planned:totalPlanned, actual, diff, date:taskDate, notionStatus:'pending'};
+
+    const taskObj={id:Date.now(),name,planned:totalPlanned,actual,diff,date:taskDate,notionStatus:'pending'};
     tasks.unshift(taskObj);
-    saveTasks();
-    renderTasks();
-    resetTimer();
+    saveTasks();renderTasks();
+    resetTimer(); // ← 여기서 doneBtn.disabled=false 처리됨
     document.getElementById('taskInput').value='';
+
     if(NOTION_TOKEN&&NOTION_DB_ID){
       showToast('⏳ 노션에 저장 중…','loading');
       const ok=await saveToNotion(taskObj);
       taskObj.notionStatus=ok?'done':'fail';
-      saveTasks();
-      renderTasks();
-      showToast(ok?'✅ 노션에 저장되었어요!':'❌ 노션 저장 실패', ok?'success':'error');
-    } else {
-      taskObj.notionStatus='fail'; saveTasks(); renderTasks();
+      saveTasks();renderTasks();
+      showToast(ok?'✅ 노션에 저장되었어요!':'❌ 노션 저장 실패',ok?'success':'error');
+    }else{
+      taskObj.notionStatus='fail';saveTasks();renderTasks();
       showToast('⚙️ 노션 연동이 필요해요 (우측 상단 ⚙️)','error');
     }
   }
@@ -486,26 +485,34 @@
         })
       });
       return res.ok;
-    }catch(e){ return false; }
+    }catch(e){return false;}
   }
 
-  // ── Edit / Delete mode ─────────────────────────────────
+  // ── Edit / Delete ──────────────────────────────────────
   function toggleEditMode(){
     editMode=!editMode;
     selected.clear();
     const btn=document.getElementById('editModeBtn');
     btn.textContent=editMode?'취소':'선택 삭제';
-    btn.classList.toggle('active', editMode);
-    document.getElementById('listCard').classList.toggle('edit-mode', editMode);
-    document.getElementById('deleteBar').classList.toggle('show', false);
+    btn.classList.toggle('active',editMode);
+    document.getElementById('deleteBar').classList.remove('show');
+
+    // 헤더 컬럼도 같이 토글
+    const cols=document.getElementById('listCols');
+    if(editMode){
+      cols.classList.add('edit-cols');
+      cols.innerHTML=`<div class="col-label"></div><div class="col-label">태스크</div><div class="col-label">작업일시</div><div class="col-label right">계획</div><div class="col-label right">실제</div><div class="col-label right">차이</div>`;
+    }else{
+      cols.classList.remove('edit-cols');
+      cols.innerHTML=`<div class="col-label">태스크</div><div class="col-label">작업일시</div><div class="col-label right">계획</div><div class="col-label right">실제</div><div class="col-label right">차이</div>`;
+    }
     renderTasks();
   }
 
   function toggleSelect(id){
-    if(selected.has(id)) selected.delete(id);
-    else selected.add(id);
+    if(selected.has(id))selected.delete(id);else selected.add(id);
     const count=selected.size;
-    document.getElementById('deleteBar').classList.toggle('show', count>0);
+    document.getElementById('deleteBar').classList.toggle('show',count>0);
     document.getElementById('deleteBarText').textContent=`${count}개 선택됨`;
     renderTasks();
   }
@@ -518,7 +525,9 @@
     editMode=false;
     document.getElementById('editModeBtn').textContent='선택 삭제';
     document.getElementById('editModeBtn').classList.remove('active');
-    document.getElementById('listCard').classList.remove('edit-mode');
+    const cols=document.getElementById('listCols');
+    cols.classList.remove('edit-cols');
+    cols.innerHTML=`<div class="col-label">태스크</div><div class="col-label">작업일시</div><div class="col-label right">계획</div><div class="col-label right">실제</div><div class="col-label right">차이</div>`;
     renderTasks();
   }
 
@@ -535,9 +544,11 @@
       const diffCls=t.diff>0?'diff-pos':t.diff<0?'diff-neg':'diff-zero';
       const nDot=t.notionStatus==='done'?'notion-dot':t.notionStatus==='fail'?'notion-dot fail':'notion-dot pending';
       const isSel=selected.has(t.id);
-      return `<div class="task-item${isSel?' selected':''}" onclick="${editMode?`toggleSelect(${t.id})`:''}">
-        <div class="task-checkbox${isSel?' checked':''}" onclick="event.stopPropagation();toggleSelect(${t.id})">${isSel?'✓':''}</div>
-        <div class="task-name-cell"><div class="task-status-dot ${t.diff>0?'dot-over':'dot-done'}"></div>${esc(t.name)}<div class="${nDot}"></div></div>
+      const rowCls=`task-item${editMode?' edit-row':''}${isSel?' selected':''}`;
+      const checkbox=editMode?`<div class="task-checkbox${isSel?' checked':''}" onclick="event.stopPropagation();toggleSelect(${t.id})">${isSel?'✓':''}</div>`:'';
+      return `<div class="${rowCls}" onclick="${editMode?`toggleSelect(${t.id})`:''}" style="${editMode?'cursor:pointer':''}">
+        ${checkbox}
+        <div class="task-name-cell"><div class="task-status-dot ${t.diff>0?'dot-over':'dot-done'}"></div><span class="task-name-text">${esc(t.name)}</span><div class="${nDot}"></div></div>
         <div class="cell-datetime">${formatDatetime(new Date(t.date))}</div>
         <div class="cell-mono">${fmt(t.planned)}</div>
         <div class="cell-mono">${fmt(t.actual)}</div>
@@ -546,7 +557,7 @@
     }).join('');
   }
 
-  function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;');}
 
   // ── Init ───────────────────────────────────────────────
   loadSettings();
