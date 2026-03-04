@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Timer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f5f2ee;
+    --surface: #ffffff;
+    --surface2: #f0ece7;
+    --border: #e0dbd4;
+    --tomato: #e8533a;
+    --tomato-light: #fde8e4;
+    --green: #3db87a;
+    --yellow: #f0b429;
+    --text: #2a2520;
+    --text-dim: #a09890;
+    --text-mid: #6b6360;
+    --shadow: 0 4px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 36px 20px 60px;
+  }
+
+  /* ── Setup Modal ── */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(42,37,32,0.45);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000;
+  }
+  .modal-backdrop.hidden { display: none; }
+  .modal {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 28px 28px;
+    width: 100%; max-width: 400px;
+    box-shadow: var(--shadow-lg);
+    margin: 20px;
+  }
+  .modal-logo { font-size: 28px; margin-bottom: 6px; }
+  .modal-title { font-size: 20px; font-weight: 900; color: var(--text); margin-bottom: 4px; }
+  .modal-sub { font-size: 13px; color: var(--text-dim); font-weight: 600; margin-bottom: 24px; line-height: 1.6; }
+  .modal-field { margin-bottom: 16px; }
+  .modal-label {
+    display: block; font-size: 11px; font-weight: 800;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--text-mid); margin-bottom: 7px;
+  }
+  .modal-input {
+    width: 100%; padding: 12px 14px;
+    background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: 12px; font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--text); outline: none;
+    transition: border-color 0.15s;
+  }
+  .modal-input:focus { border-color: var(--tomato); background: var(--tomato-light); }
+  .modal-input::placeholder { color: var(--text-dim); }
+  .modal-hint {
+    font-size: 11px; color: var(--text-dim); font-weight: 600;
+    margin-top: 5px; line-height: 1.5;
+  }
+  .modal-hint a { color: var(--tomato); text-decoration: none; }
+  .modal-hint a:hover { text-decoration: underline; }
+  .modal-btn {
+    width: 100%; padding: 14px;
+    background: var(--tomato); color: white; border: none;
+    border-radius: 14px; font-family: 'Nunito', sans-serif;
+    font-size: 15px; font-weight: 800; cursor: pointer;
+    transition: all 0.15s; margin-top: 8px;
+    box-shadow: 0 4px 16px rgba(232,83,58,0.3);
+  }
+  .modal-btn:hover { background: #f06045; transform: translateY(-1px); }
+  .modal-error {
+    font-size: 12px; color: var(--tomato); font-weight: 700;
+    margin-top: 10px; display: none; text-align: center;
+  }
+
+  /* ── Header ── */
+  .header {
+    width: 100%; max-width: 460px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .logo { font-size: 15px; font-weight: 900; letter-spacing: -0.02em; color: var(--tomato); display: flex; align-items: center; gap: 6px; }
+  .header-right { display: flex; align-items: center; gap: 8px; }
+  .session-badge {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim);
+    background: var(--surface); border: 1.5px solid var(--border);
+    padding: 4px 12px; border-radius: 20px; font-weight: 500;
+  }
+  .settings-btn {
+    width: 32px; height: 32px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 10px; cursor: pointer; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .settings-btn:hover { background: var(--border); }
+
+  /* ── Main card ── */
+  .card {
+    width: 100%; max-width: 460px;
+    background: var(--surface); border-radius: 28px;
+    padding: 28px 28px 24px;
+    box-shadow: var(--shadow-lg); margin-bottom: 14px;
+  }
+  .task-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface2); border-radius: 14px;
+    padding: 12px 16px; margin-bottom: 24px;
+    border: 1.5px solid transparent; transition: border-color 0.2s;
+  }
+  .task-row:focus-within { border-color: var(--tomato); }
+  .task-dot { width: 8px; height: 8px; background: var(--tomato); border-radius: 50%; flex-shrink: 0; }
+  .task-input {
+    flex: 1; background: transparent; border: none; outline: none;
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700;
+    color: var(--text); caret-color: var(--tomato);
+  }
+  .task-input::placeholder { color: var(--text-dim); font-weight: 600; }
+
+  /* ── Clock ── */
+  .clock-wrap { display: flex; justify-content: center; margin-bottom: 22px; }
+  .clock-outer { position: relative; width: 220px; height: 220px; }
+  #timerCanvas { border-radius: 50%; display: block; }
+  .clock-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    background: white; border-radius: 50%;
+    width: 96px; height: 96px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    pointer-events: none;
+  }
+  #timeDisplay { font-family: 'DM Mono', monospace; font-size: 20px; font-weight: 500; color: var(--text); line-height: 1; letter-spacing: -0.5px; }
+  #statusLabel { font-size: 9px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); margin-top: 3px; }
+  #overtimeLabel { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--yellow); margin-top: 2px; display: none; }
+
+  /* ── Timesup ── */
+  .timesup-banner {
+    display: none; align-items: center; gap: 10px;
+    background: #fde8e4; border: 1.5px solid #f5c4bb;
+    border-radius: 14px; padding: 11px 16px; margin-bottom: 14px;
+    width: 100%; max-width: 460px;
+  }
+  .timesup-banner.show { display: flex; }
+  .timesup-text { font-size: 13px; font-weight: 800; color: var(--tomato); }
+  .timesup-sub { font-size: 11px; color: #c0705a; margin-top: 1px; font-weight: 600; }
+
+  /* ── Setter ── */
+  .time-setter { display: flex; align-items: flex-end; justify-content: center; gap: 8px; margin-bottom: 20px; }
+  .setter-unit { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .setter-label { font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-dim); }
+  .setter-inner { display: flex; align-items: center; gap: 5px; }
+  .setter-btn {
+    width: 28px; height: 28px; background: var(--surface2); border: 1.5px solid var(--border);
+    border-radius: 8px; color: var(--text-mid); font-size: 16px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s; font-weight: 700;
+  }
+  .setter-btn:hover { background: var(--border); color: var(--text); }
+  .setter-input {
+    font-family: 'DM Mono', monospace; font-size: 24px; font-weight: 500;
+    color: var(--text); background: var(--surface2);
+    border: 1.5px solid var(--border); border-radius: 10px;
+    width: 58px; text-align: center; padding: 5px 0; outline: none;
+    transition: border-color 0.15s;
+  }
+  .setter-input:focus { border-color: var(--tomato); background: var(--tomato-light); }
+  .setter-sep { font-family: 'DM Mono', monospace; font-size: 22px; color: var(--text-dim); padding-bottom: 4px; font-weight: 500; }
+
+  /* ── Controls ── */
+  .controls { display: flex; gap: 10px; justify-content: center; }
+  .btn-main {
+    flex: 1; padding: 14px; background: var(--tomato); color: white; border: none;
+    border-radius: 16px; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 800;
+    cursor: pointer; transition: all 0.15s; max-width: 200px;
+    box-shadow: 0 4px 16px rgba(232,83,58,0.35);
+  }
+  .btn-main:hover { background: #f06045; transform: translateY(-2px); }
+  .btn-secondary {
+    padding: 14px 20px; background: var(--surface2); color: var(--text-mid);
+    border: 1.5px solid var(--border); border-radius: 16px;
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+    cursor: pointer; transition: all 0.15s;
+  }
+  .btn-secondary:hover { background: var(--border); color: var(--text); }
+  .btn-done {
+    padding: 14px 20px; background: #e8f8f0; color: var(--green);
+    border: 1.5px solid #b8e8d0; border-radius: 16px;
+    font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 800;
+    cursor: pointer; transition: all 0.15s; display: none;
+  }
+  .btn-done:hover { background: #d0f0e4; }
+  .btn-done:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ── Toast ── */
+  .sync-toast {
+    position: fixed; bottom: 28px; right: 24px;
+    background: white; border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 12px 18px;
+    font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; gap: 8px;
+    transition: all 0.3s; opacity: 0; transform: translateY(10px); z-index: 999;
+    box-shadow: var(--shadow);
+  }
+  .sync-toast.show { opacity: 1; transform: translateY(0); }
+  .sync-toast.success { border-color: #b8e8d0; color: var(--green); }
+  .sync-toast.error { border-color: #f5c4bb; color: var(--tomato); }
+  .sync-toast.loading { color: var(--text-dim); }
+
+  /* ── List ── */
+  .list-card { width: 100%; max-width: 460px; background: var(--surface); border-radius: 24px; overflow: hidden; box-shadow: var(--shadow); }
+  .list-header { padding: 18px 22px 14px; border-bottom: 1.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .list-title { font-size: 12px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-dim); }
+  .list-header-right { display: flex; align-items: center; gap: 8px; }
+  .list-count { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-dim); background: var(--surface2); padding: 2px 8px; border-radius: 10px; }
+  .notion-badge { font-size: 10px; font-weight: 800; color: var(--green); background: #e8f8f0; border: 1.5px solid #b8e8d0; padding: 2px 8px; border-radius: 10px; }
+  .notion-badge.disconnected { color: var(--text-dim); background: var(--surface2); border-color: var(--border); }
+  .list-cols { display: grid; grid-template-columns: 1fr 100px 58px 58px 68px; gap: 4px; padding: 9px 22px; border-bottom: 1.5px solid var(--border); background: var(--surface2); }
+  .col-label { font-size: 10px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-dim); }
+  .col-label.right { text-align: right; }
+  .task-item { display: grid; grid-template-columns: 1fr 100px 58px 58px 68px; gap: 4px; padding: 13px 22px; border-bottom: 1.5px solid var(--border); animation: slide-in 0.25s ease; }
+  .task-item:last-child { border-bottom: none; }
+  @keyframes slide-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .task-name-cell { font-size: 13px; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 7px; }
+  .task-status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .dot-done { background: var(--green); }
+  .dot-over { background: var(--yellow); }
+  .cell-mono { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-mid); text-align: right; display: flex; align-items: center; justify-content: flex-end; }
+  .cell-datetime { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text-dim); display: flex; align-items: center; }
+  .diff-pos { color: var(--yellow); font-weight: 600; }
+  .diff-neg { color: var(--green); font-weight: 600; }
+  .diff-zero { color: var(--text-dim); }
+  .notion-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); margin-left: 3px; flex-shrink: 0; }
+  .notion-dot.pending { background: var(--yellow); }
+  .notion-dot.fail { background: var(--tomato); }
+  .empty-state { padding: 40px 24px; text-align: center; color: var(--text-dim); font-size: 13px; line-height: 1.9; font-weight: 600; }
+  .empty-icon { font-size: 30px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ── Setup Modal ── -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-logo">🍅</div>
+    <div class="modal-title">노션 연동 설정</div>
+    <div class="modal-sub">처음 한 번만 입력하면 이 브라우저에서는<br>다시 입력하지 않아도 돼요!</div>
+
+    <div class="modal-field">
+      <label class="modal-label">Notion Integration Token</label>
+      <input class="modal-input" id="inputToken" type="password" placeholder="ntn_xxxxxxxxxxxxxxxx">
+      <div class="modal-hint">
+        <a href="https://www.notion.so/my-integrations" target="_blank">notion.so/my-integrations</a>에서 발급 가능해요
+      </div>
+    </div>
+
+    <div class="modal-field">
+      <label class="modal-label">Notion Database ID</label>
+      <input class="modal-input" id="inputDbId" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+      <div class="modal-hint">DB 페이지 URL에서 복사 (32자리)</div>
+    </div>
+
+    <button class="modal-btn" onclick="saveSettings()">저장하고 시작하기 →</button>
+    <div class="modal-error" id="modalError">토큰과 DB ID를 모두 입력해주세요</div>
+  </div>
+</div>
+
+<!-- ── App ── -->
+<div class="header">
+  <div class="logo">🍅 Focus Timer</div>
+  <div class="header-right">
+    <div class="session-badge" id="sessionBadge">세션 0회 완료</div>
+    <button class="settings-btn" onclick="openSettings()" title="노션 설정">⚙️</button>
+  </div>
+</div>
+
+<div class="timesup-banner" id="timesupBanner">
+  <div style="font-size:18px">⏰</div>
+  <div>
+    <div class="timesup-text">타임업!</div>
+    <div class="timesup-sub">초과 시간이 카운트 중이에요 — 완료 버튼을 눌러 기록하세요</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="task-row">
+    <div class="task-dot"></div>
+    <input class="task-input" id="taskInput" type="text" placeholder="지금 집중할 태스크를 입력하세요…" maxlength="40">
+  </div>
+
+  <div class="clock-wrap">
+    <div class="clock-outer">
+      <canvas id="timerCanvas" width="220" height="220"></canvas>
+      <div class="clock-center">
+        <div id="timeDisplay">10:00</div>
+        <div id="statusLabel">대기 중</div>
+        <div id="overtimeLabel">초과중</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="time-setter" id="timeSetter">
+    <div class="setter-unit">
+      <div class="setter-label">시간</div>
+      <div class="setter-inner">
+        <button class="setter-btn" onclick="adjustTime('h',1)">+</button>
+        <input class="setter-input" id="setHour" type="number" min="0" max="23" value="0" oninput="onInputChange('h')" onblur="onInputBlur('h')">
+        <button class="setter-btn" onclick="adjustTime('h',-1)">−</button>
+      </div>
+    </div>
+    <div class="setter-sep">:</div>
+    <div class="setter-unit">
+      <div class="setter-label">분</div>
+      <div class="setter-inner">
+        <button class="setter-btn" onclick="adjustTime('m',1)">+</button>
+        <input class="setter-input" id="setMin" type="number" min="0" max="59" value="10" oninput="onInputChange('m')" onblur="onInputBlur('m')">
+        <button class="setter-btn" onclick="adjustTime('m',-1)">−</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn-main" id="startBtn" onclick="toggleTimer()">▶ 시작</button>
+    <button class="btn-secondary" onclick="resetTimer()">↺ 리셋</button>
+    <button class="btn-done" id="doneBtn" onclick="completeTask()">✓ 완료</button>
+  </div>
+</div>
+
+<div class="list-card">
+  <div class="list-header">
+    <div class="list-title">완료된 태스크</div>
+    <div class="list-header-right">
+      <div class="notion-badge" id="notionBadge">● Notion</div>
+      <div class="list-count" id="taskCount">0개</div>
+    </div>
+  </div>
+  <div class="list-cols">
+    <div class="col-label">태스크</div>
+    <div class="col-label">작업일시</div>
+    <div class="col-label right">계획</div>
+    <div class="col-label right">실제</div>
+    <div class="col-label right">차이</div>
+  </div>
+  <div id="taskList">
+    <div class="empty-state">
+      <div class="empty-icon">🍅</div>
+      완료된 태스크가 없어요<br>첫 번째 집중 세션을 시작해보세요!
+    </div>
+  </div>
+</div>
+
+<div class="sync-toast" id="syncToast"></div>
+
+<script>
+  const CORS_PROXY = 'https://corsproxy.io/?url=';
+  const CX = 110, CY = 110, R = 100;
+
+  // ── Notion 설정 (localStorage) ─────────────────────────
+  let NOTION_TOKEN = '';
+  let NOTION_DB_ID = '';
+
+  function loadSettings() {
+    NOTION_TOKEN = localStorage.getItem('ft_token') || '';
+    NOTION_DB_ID = localStorage.getItem('ft_dbid') || '';
+    if (!NOTION_TOKEN || !NOTION_DB_ID) {
+      document.getElementById('modalBackdrop').classList.remove('hidden');
+    } else {
+      document.getElementById('modalBackdrop').classList.add('hidden');
+      updateNotionBadge(true);
+    }
+  }
+
+  function saveSettings() {
+    const token = document.getElementById('inputToken').value.trim();
+    const dbid  = document.getElementById('inputDbId').value.trim().replace(/-/g,'');
+    if (!token || !dbid) {
+      document.getElementById('modalError').style.display = 'block';
+      return;
+    }
+    localStorage.setItem('ft_token', token);
+    localStorage.setItem('ft_dbid', dbid);
+    NOTION_TOKEN = token;
+    NOTION_DB_ID = dbid;
+    document.getElementById('modalBackdrop').classList.add('hidden');
+    updateNotionBadge(true);
+  }
+
+  function openSettings() {
+    document.getElementById('inputToken').value = NOTION_TOKEN;
+    document.getElementById('inputDbId').value  = NOTION_DB_ID;
+    document.getElementById('modalBackdrop').classList.remove('hidden');
+  }
+
+  function updateNotionBadge(connected) {
+    const badge = document.getElementById('notionBadge');
+    badge.textContent = connected ? '● Notion' : '○ Notion 미연결';
+    badge.className = connected ? 'notion-badge' : 'notion-badge disconnected';
+  }
+
+  // ── Timer state ────────────────────────────────────────
+  let setHours = 0, setMinutes = 10;
+  let totalPlanned = 10 * 60;
+  let remaining = totalPlanned;
+  let elapsed = 0, overtime = 0;
+  let running = false, isOvertime = false;
+  let interval = null, sessionCount = 0;
+  let startTime = null;
+  let tasks = [];
+
+  const canvas = document.getElementById('timerCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function drawClock() {
+    ctx.clearRect(0, 0, 220, 220);
+    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.fillStyle = '#f5f2ee'; ctx.fill();
+    for (let i = 0; i < 60; i++) {
+      const angle = (i/60)*Math.PI*2 - Math.PI/2;
+      const isMajor = i%5===0;
+      const r1 = isMajor ? R-10 : R-6;
+      ctx.beginPath();
+      ctx.moveTo(CX+r1*Math.cos(angle), CY+r1*Math.sin(angle));
+      ctx.lineTo(CX+(R-2)*Math.cos(angle), CY+(R-2)*Math.sin(angle));
+      ctx.strokeStyle = isMajor ? '#c8c0b8' : '#ddd8d2';
+      ctx.lineWidth = isMajor ? 2 : 1; ctx.stroke();
+    }
+    const startAngle = -Math.PI/2;
+    if (!isOvertime && remaining > 0) {
+      const endAngle = startAngle + (remaining/totalPlanned)*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(CX,CY);
+      ctx.arc(CX, CY, R-12, startAngle, endAngle);
+      ctx.closePath(); ctx.fillStyle = '#e8533a';
+      ctx.globalAlpha = 0.88; ctx.fill(); ctx.globalAlpha = 1;
+    }
+    if (isOvertime && overtime > 0) {
+      const otEnd = startAngle + ((overtime%totalPlanned)/totalPlanned)*Math.PI*2;
+      ctx.beginPath(); ctx.moveTo(CX,CY);
+      ctx.arc(CX, CY, R-12, startAngle, otEnd);
+      ctx.closePath(); ctx.fillStyle = '#f0b429';
+      ctx.globalAlpha = 0.82; ctx.fill(); ctx.globalAlpha = 1;
+    }
+    ctx.beginPath(); ctx.arc(CX, CY, 52, 0, Math.PI*2); ctx.fillStyle = '#fff'; ctx.fill();
+    ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI*2); ctx.strokeStyle = '#e0dbd4'; ctx.lineWidth = 2; ctx.stroke();
+    ctx.beginPath(); ctx.arc(CX, CY, 4, 0, Math.PI*2); ctx.fillStyle = isOvertime ? '#f0b429' : '#e8533a'; ctx.fill();
+  }
+
+  function fmt(sec) {
+    const h = Math.floor(Math.abs(sec)/3600);
+    const m = Math.floor((Math.abs(sec)%3600)/60);
+    const s = Math.abs(sec)%60;
+    if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  }
+  function nowKST() { return new Date(new Date().toLocaleString('en-US',{timeZone:'Asia/Seoul'})); }
+  function formatDatetime(d) {
+    return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  }
+  function beep() {
+    try {
+      const ac = new (window.AudioContext||window.webkitAudioContext)();
+      [0,0.18,0.36].forEach(t => {
+        const o=ac.createOscillator(), g=ac.createGain();
+        o.connect(g); g.connect(ac.destination);
+        o.frequency.value = t===0.36?880:660;
+        g.gain.setValueAtTime(0.25, ac.currentTime+t);
+        g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime+t+0.28);
+        o.start(ac.currentTime+t); o.stop(ac.currentTime+t+0.28);
+      });
+    } catch(e) {}
+  }
+  function showToast(msg, type='loading') {
+    const t = document.getElementById('syncToast');
+    t.className = `sync-toast ${type} show`; t.innerHTML = msg;
+    if (type !== 'loading') setTimeout(() => t.classList.remove('show'), 3500);
+  }
+  function updateTimeDisplay() {
+    document.getElementById('timeDisplay').textContent = isOvertime ? `+${fmt(overtime)}` : fmt(remaining);
+  }
+  function render() { drawClock(); updateTimeDisplay(); }
+
+  function getPlanned() { return setHours*3600 + setMinutes*60; }
+  function adjustTime(type, delta) {
+    if (running) return;
+    if (type==='h') { setHours=Math.max(0,Math.min(23,setHours+delta)); document.getElementById('setHour').value=setHours; }
+    else { setMinutes=Math.max(0,Math.min(59,setMinutes+delta)); if(!setHours&&!setMinutes) setMinutes=1; document.getElementById('setMin').value=setMinutes; }
+    applyTimeChange();
+  }
+  function onInputChange(type) {
+    if (running) return;
+    if (type==='h') setHours=parseInt(document.getElementById('setHour').value)||0;
+    else setMinutes=parseInt(document.getElementById('setMin').value)||0;
+    applyTimeChange();
+  }
+  function onInputBlur(type) {
+    if (type==='h') { setHours=Math.max(0,Math.min(23,parseInt(document.getElementById('setHour').value)||0)); document.getElementById('setHour').value=setHours; }
+    else { setMinutes=Math.max(0,Math.min(59,parseInt(document.getElementById('setMin').value)||0)); if(!setHours&&!setMinutes) setMinutes=1; document.getElementById('setMin').value=setMinutes; }
+    applyTimeChange();
+  }
+  function applyTimeChange() { totalPlanned=getPlanned(); remaining=totalPlanned; elapsed=0; overtime=0; render(); }
+  function lockSetter(lock) { const s=document.getElementById('timeSetter'); s.style.opacity=lock?'0.4':'1'; s.style.pointerEvents=lock?'none':'auto'; }
+
+  function toggleTimer() {
+    const btn=document.getElementById('startBtn');
+    if (running) { clearInterval(interval); running=false; btn.textContent='▶ 재개'; }
+    else {
+      if (!totalPlanned) return;
+      if (!startTime) startTime=nowKST();
+      running=true; btn.textContent='⏸ 일시정지';
+      lockSetter(true);
+      document.getElementById('doneBtn').style.display='flex';
+      document.getElementById('statusLabel').textContent='집중 중';
+      interval=setInterval(tick,1000);
+    }
+  }
+  function tick() {
+    elapsed++;
+    if (!isOvertime) {
+      remaining--; render();
+      if (remaining<=0) {
+        isOvertime=true; beep();
+        document.getElementById('timesupBanner').classList.add('show');
+        document.getElementById('statusLabel').textContent='타임업!';
+        document.getElementById('statusLabel').style.color='#e8533a';
+        document.getElementById('overtimeLabel').style.display='block';
+      }
+    } else { overtime++; document.getElementById('overtimeLabel').textContent=`+${fmt(overtime)}`; render(); }
+  }
+  function resetTimer() {
+    clearInterval(interval);
+    running=false; isOvertime=false; totalPlanned=getPlanned();
+    remaining=totalPlanned; elapsed=0; overtime=0; startTime=null;
+    document.getElementById('startBtn').textContent='▶ 시작';
+    document.getElementById('statusLabel').textContent='대기 중';
+    document.getElementById('statusLabel').style.color='';
+    document.getElementById('doneBtn').style.display='none';
+    document.getElementById('timesupBanner').classList.remove('show');
+    document.getElementById('overtimeLabel').style.display='none';
+    lockSetter(false); render();
+  }
+
+  async function completeTask() {
+    if (elapsed===0) return;
+    clearInterval(interval); running=false;
+    document.getElementById('doneBtn').disabled=true;
+    const name=document.getElementById('taskInput').value.trim()||'이름 없는 태스크';
+    const actual=elapsed, diff=actual-totalPlanned;
+    const taskDate=startTime||nowKST();
+    sessionCount++; document.getElementById('sessionBadge').textContent=`세션 ${sessionCount}회 완료`;
+    const taskObj={name,planned:totalPlanned,actual,diff,date:taskDate,notionStatus:'pending'};
+    tasks.unshift(taskObj); renderTasks();
+    resetTimer(); document.getElementById('taskInput').value='';
+    if (NOTION_TOKEN && NOTION_DB_ID) {
+      showToast('⏳ 노션에 저장 중…','loading');
+      const ok=await saveToNotion(taskObj);
+      taskObj.notionStatus=ok?'done':'fail'; renderTasks();
+      showToast(ok?'✅ 노션에 저장되었어요!':'❌ 노션 저장 실패', ok?'success':'error');
+    } else {
+      taskObj.notionStatus='fail'; renderTasks();
+      showToast('⚙️ 노션 연동이 필요해요 (우측 상단 ⚙️)', 'error');
+    }
+  }
+
+  async function saveToNotion(task) {
+    const diffStr=task.diff===0?'±0:00':(task.diff>0?`+${fmt(task.diff)}`:`−${fmt(task.diff)}`);
+    try {
+      const res=await fetch(CORS_PROXY+encodeURIComponent('https://api.notion.com/v1/pages'),{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':`Bearer ${NOTION_TOKEN}`,'Notion-Version':'2022-06-28'},
+        body:JSON.stringify({
+          parent:{database_id:NOTION_DB_ID},
+          properties:{
+            "태스크명":{title:[{text:{content:task.name}}]},
+            "작업일시":{date:{start:task.date.toISOString().split('T')[0]}},
+            "계획시간":{rich_text:[{text:{content:fmt(task.planned)}}]},
+            "실제시간":{rich_text:[{text:{content:fmt(task.actual)}}]},
+            "차이":    {rich_text:[{text:{content:diffStr}}]}
+          }
+        })
+      });
+      return res.ok;
+    } catch(e) { return false; }
+  }
+
+  function renderTasks() {
+    const list=document.getElementById('taskList');
+    document.getElementById('taskCount').textContent=`${tasks.length}개`;
+    if (!tasks.length) { list.innerHTML=`<div class="empty-state"><div class="empty-icon">🍅</div>완료된 태스크가 없어요<br>첫 번째 집중 세션을 시작해보세요!</div>`; return; }
+    list.innerHTML=tasks.map(t=>{
+      const diffStr=t.diff===0?'±0:00':(t.diff>0?`+${fmt(t.diff)}`:`−${fmt(t.diff)}`);
+      const diffCls=t.diff>0?'diff-pos':t.diff<0?'diff-neg':'diff-zero';
+      const nDot=t.notionStatus==='done'?'notion-dot':t.notionStatus==='fail'?'notion-dot fail':'notion-dot pending';
+      return `<div class="task-item">
+        <div class="task-name-cell"><div class="task-status-dot ${t.diff>0?'dot-over':'dot-done'}"></div>${t.name.replace(/&/g,'&amp;').replace(/</g,'&lt;')}<div class="${nDot}"></div></div>
+        <div class="cell-datetime">${formatDatetime(t.date)}</div>
+        <div class="cell-mono">${fmt(t.planned)}</div>
+        <div class="cell-mono">${fmt(t.actual)}</div>
+        <div class="cell-mono ${diffCls}">${diffStr}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── Init ───────────────────────────────────────────────
+  loadSettings();
+  render();
+  renderTasks();
+</script>
+</body>
+</html>
