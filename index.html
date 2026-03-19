@@ -260,7 +260,11 @@
 <div class="sync-toast" id="syncToast"></div>
 
 <script>
-  const CORS_PROXY='https://corsproxy.io/?url=';
+  const CORS_PROXIES = [
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
+  url => `https://cors-anywhere.herokuapp.com/${url}`,
+];
   const CX=110,CY=110,R=100;
   let NOTION_TOKEN='',NOTION_DB_ID='';
   let setHours=0,setMinutes=10;
