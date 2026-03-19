@@ -488,9 +488,15 @@
           }
         })
       });
-      return res.ok;
-    }catch(e){return false;}
+    const body = await res.text();
+    console.log('Status:', res.status);
+    console.log('Response:', body);
+    return res.ok;
+  }catch(e){
+    console.error('Error:', e); // ↓ 이 부분도 추가
+    return false;
   }
+}
 
   // ── Edit / Delete ──────────────────────────────────────
   function toggleEditMode(){
