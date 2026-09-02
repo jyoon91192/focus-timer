@@ -972,34 +972,27 @@ function miniStyles() {
     }
 
     .mini-time-circle{
-      width:92px;
-      height:92px;
-      border-radius:50%;
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  background:#f0ece7;
+  border:2px solid var(--border);
 
-      background:
-        conic-gradient(
-          var(--mini-progress-color,var(--tomato))
-          calc(var(--mini-progress,100) * 1%),
-          var(--surface2) 0
-        );
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 
-      border:2px solid var(--border);
+  position:relative;
+}
 
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-
-      position:relative;
-    }
-
-    .mini-time-circle::before{
-      content:'';
-      position:absolute;
-      inset:7px;
-      border-radius:50%;
-      background:var(--surface);
-    }
+.mini-time-circle::before{
+  content:'';
+  position:absolute;
+  inset:7px;
+  border-radius:50%;
+  background:var(--surface);
+}
 
     .mini-time{
       position:relative;
@@ -1687,15 +1680,22 @@ function updateMiniMode() {
       );
   }
 
-  circleEl.style.setProperty(
-    '--mini-progress',
-    String(progress)
-  );
+  const angle = Math.max(
+  0,
+  Math.min(
+    360,
+    progress * 3.6
+  )
+);
 
-  circleEl.style.setProperty(
-    '--mini-progress-color',
-    progressColor
-  );
+circleEl.style.background = `
+  conic-gradient(
+    ${progressColor} 0deg,
+    ${progressColor} ${angle}deg,
+    #f0ece7 ${angle}deg,
+    #f0ece7 360deg
+  )
+`;
 
   if (isOvertime) {
     statusPillEl.textContent =
