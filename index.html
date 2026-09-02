@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Timer</title>
+<link rel="icon" type="image/png" href="https://twemoji.maxcdn.com/v/latest/72x72/1f345.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-logo">🍅</div>
+    <div class="modal-title">노션 연동 설정</div>
+    <div class="modal-sub">처음 한 번만 입력하면 이 브라우저에서는<br>다시 입력하지 않아도 돼요!</div>
+    <div class="modal-field">
+      <label class="modal-label">Notion Integration Token</label>
+      <input class="modal-input" id="inputToken" type="password" placeholder="ntn_xxxxxxxxxxxxxxxx">
+      <div class="modal-hint"><a href="https://www.notion.so/my-integrations" target="_blank">notion.so/my-integrations</a>에서 발급 가능해요</div>
+    </div>
+    <div class="modal-field">
+      <label class="modal-label">Notion Database ID</label>
+      <input class="modal-input" id="inputDbId" type="text" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
+      <div class="modal-hint">DB 페이지 URL에서 복사 (32자리)</div>
+    </div>
+    <button class="modal-btn" onclick="saveSettings()">저장하고 시작하기 →</button>
+    <div class="modal-error" id="modalError">토큰과 DB ID를 모두 입력해주세요</div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="header">
+  <div class="logo">🍅 Focus Timer</div>
+  <div class="header-right">
+    <div class="session-badge" id="sessionBadge">세션 0회 완료</div>
+    <button class="settings-btn" id="miniModeBtn" onclick="openMiniMode()" title="항상 위 미니모드">📌</button>
+    <button class="settings-btn" onclick="openSettings()">⚙️</button>
+  </div>
+</div>
+
+<div class="timesup-banner" id="timesupBanner">
+  <div style="font-size:18px">⏰</div>
+  <div>
+    <div class="timesup-text">타임업!</div>
+    <div class="timesup-sub">초과 시간이 카운트 중이에요 — 완료 버튼을 눌러 기록하세요</div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="task-row">
+    <div class="task-dot"></div>
+    <input class="task-input" id="taskInput" type="text" placeholder="지금 집중할 태스크를 입력하세요…" maxlength="40">
+  </div>
+  <div class="clock-wrap">
+    <div class="clock-outer">
+      <canvas id="timerCanvas" width="220" height="220"></canvas>
+      <div class="clock-center">
+        <div id="timeDisplay">10:00</div>
+        <div id="statusLabel">대기 중</div>
+        <div id="overtimeLabel">초과중</div>
+      </div>
+    </div>
+  </div>
+  <div class="time-setter" id="timeSetter">
+    <div class="setter-unit">
+      <div class="setter-label">시간</div>
+      <div class="setter-inner">
+        <button class="setter-btn" onclick="adjustTime('h',1)">+</button>
+        <input class="setter-input" id="setHour" type="number" min="0" max="23" value="0" oninput="onInputChange('h')" onblur="onInputBlur('h')">
+        <button class="setter-btn" onclick="adjustTime('h',-1)">−</button>
+      </div>
+    </div>
+    <div class="setter-sep">:</div>
+    <div class="setter-unit">
+      <div class="setter-label">분</div>
+      <div class="setter-inner">
+        <button class="setter-btn" onclick="adjustTime('m',1)">+</button>
+        <input class="setter-input" id="setMin" type="number" min="0" max="59" value="10" oninput="onInputChange('m')" onblur="onInputBlur('m')">
+        <button class="setter-btn" onclick="adjustTime('m',-1)">−</button>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="btn-main" id="startBtn" onclick="toggleTimer()">▶ 시작</button>
+    <button class="btn-secondary" onclick="resetTimer()">↺ 리셋</button>
+    <button class="btn-done" id="doneBtn" onclick="completeTask()">✓ 완료</button>
+  </div>
+</div>
+
+<!-- Task List -->
+<div class="list-card" id="listCard">
+  <div class="list-header">
+    <div class="list-title">완료된 태스크</div>
+    <div class="list-header-right">
+      <button class="btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">선택 삭제</button>
+      <button class="btn-edit-mode" id="deleteAllBtn" onclick="deleteAllTasks()">전체 삭제</button>
+      <div class="notion-badge" id="notionBadge">● Notion</div>
+      <div class="list-count" id="taskCount">0개</div>
+    </div>
+  </div>
+  <div class="list-cols" id="listCols">
+    <div class="col-label">태스크</div>
+    <div class="col-label">작업일시</div>
+    <div class="col-label right">계획</div>
+    <div class="col-label right">실제</div>
+    <div class="col-label right">차이</div>
+  </div>
+  <div id="taskList">
+    <div class="empty-state"><div class="empty-icon">🍅</div>완료된 태스크가 없어요<br>첫 번째 집중 세션을 시작해보세요!</div>
+  </div>
+  <div class="delete-bar" id="deleteBar">
+    <div class="delete-bar-text" id="deleteBarText">0개 선택됨</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn-cancel-delete" onclick="toggleEditMode()">취소</button>
+      <button class="btn-confirm-delete" onclick="deleteSelected()">🗑 삭제</button>
+    </div>
+  </div>
+</div>
+
+<div class="sync-toast" id="syncToast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
