@@ -233,6 +233,7 @@
     <div class="list-title">완료된 태스크</div>
     <div class="list-header-right">
       <button class="btn-edit-mode" id="editModeBtn" onclick="toggleEditMode()">선택 삭제</button>
+      <button class="btn-edit-mode" id="deleteAllBtn" onclick="deleteAllTasks()">전체 삭제</button>
       <div class="notion-badge" id="notionBadge">● Notion</div>
       <div class="list-count" id="taskCount">0개</div>
     </div>
@@ -569,6 +570,36 @@
     cols.classList.remove('edit-cols');
     cols.innerHTML=`<div class="col-label">태스크</div><div class="col-label">작업일시</div><div class="col-label right">계획</div><div class="col-label right">실제</div><div class="col-label right">차이</div>`;
     renderTasks();
+  }
+
+
+  function deleteAllTasks(){
+    if(!tasks.length){
+      showToast('삭제할 태스크가 없어요','error');
+      return;
+    }
+
+    const ok=confirm(`완료된 태스크 ${tasks.length}개를 모두 삭제할까요?\n이 작업은 되돌릴 수 없습니다.`);
+    if(!ok)return;
+
+    tasks=[];
+    selected.clear();
+    editMode=false;
+
+    saveTasks();
+
+    document.getElementById('deleteBar').classList.remove('show');
+
+    const editBtn=document.getElementById('editModeBtn');
+    editBtn.textContent='선택 삭제';
+    editBtn.classList.remove('active');
+
+    const cols=document.getElementById('listCols');
+    cols.classList.remove('edit-cols');
+    cols.innerHTML=`<div class="col-label">태스크</div><div class="col-label">작업일시</div><div class="col-label right">계획</div><div class="col-label right">실제</div><div class="col-label right">차이</div>`;
+
+    renderTasks();
+    showToast('🗑 완료된 태스크를 모두 삭제했어요','success');
   }
 
   // ── Render ─────────────────────────────────────────────
