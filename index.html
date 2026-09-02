@@ -259,30 +259,30 @@
 <div class="sync-toast" id="syncToast"></div>
 
 <script>
-  // ── CORS 프록시 목록 (순서대로 시도, 하나 실패하면 다음으로 자동 폴백) ──
-  const CORS_PROXIES = [
-    url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-    url => `https://corsproxy.io/?url=${encodeURIComponent(url)}`,
-    url => `https://cors-anywhere.herokuapp.com/${url}`,
-  ];
+  // ── Notion 프록시 설정 ──────────────────────────────────
+  // 아래 주소를 본인이 배포한 프록시 주소로 바꿔주세요.
+  // 예: https://focus-timer-notion-proxy.yourname.workers.dev
+  const NOTION_PROXY_URL = 'https://YOUR-PROXY-URL.workers.dev';
 
   async function proxiedFetch(targetUrl, options = {}) {
-    let lastError;
-    for (const proxyFn of CORS_PROXIES) {
-      try {
-        const proxyUrl = proxyFn(targetUrl);
-        const res = await fetch(proxyUrl, options);
-        if (res.ok) return res;
-        // HTTP 오류지만 응답은 받은 경우 (예: 401, 403 등 Notion 오류)
-        // → 프록시 문제가 아니므로 그대로 반환
-        if (res.status < 500) return res;
-        lastError = new Error(`HTTP ${res.status}`);
-      } catch (e) {
-        lastError = e;
-        // 네트워크 오류 → 다음 프록시 시도
-      }
-    }
-    throw lastError;
+    const headers = options.headers || {};
+
+    // 토큰은 기존처럼 사용자 브라우저 localStorage에만 저장됩니다.
+    // 프록시는 요청을 중계만 하고 저장하지 않도록 구성합니다.
+    const payload = {
+      targetUrl,
+      method: options.method || 'GET',
+      headers,
+      body: options.body || null
+    };
+
+    const res = await fetch(NOTION_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    return res;
   }
 
   const CX=110,CY=110,R=100;
@@ -512,8 +512,21 @@
           }
         })
       });
+
+      if(!res.ok){
+        try{
+          const errText=await res.text();
+          console.error('Notion 저장 실패:',res.status,errText);
+        }catch(e){
+          console.error('Notion 저장 실패:',res.status);
+        }
+      }
+
       return res.ok;
-    }catch(e){return false;}
+    }catch(e){
+      console.error('Notion 프록시 호출 실패:',e);
+      return false;
+    }
   }
 
   // ── Edit / Delete ──────────────────────────────────────
